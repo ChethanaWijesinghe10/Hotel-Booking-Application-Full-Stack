@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { addRoom } from '../utils/ApiFunctions';
 import RoomTypeSelector from '../common/RoomTypeSelector';
-
+import { useNavigate } from 'react-router-dom';
 const AddRoom = () => {
   const [newRoom, setNewRoom] = useState({
     photo: null,
@@ -13,7 +13,7 @@ const AddRoom = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const navigate = useNavigate();
  
 const handleRoomInputChange = (e) => {
   const { name, value } = e.target;
@@ -48,6 +48,10 @@ const handleRoomInputChange = (e) => {
       setSuccessMessage('');
       setErrorMessage('');
     }, 3000);
+  };
+
+  const handleBack = () => {
+    navigate('/existing-rooms'); 
   };
 
   return (
@@ -103,7 +107,8 @@ const handleRoomInputChange = (e) => {
                 />
               )}
             </div>
-            <div className='d-grid d-md-flex mt-2'>
+            <div className='d-grid justify-content-between d-md-flex mt-2'>
+            <button type="button" className='btn btn-outline-primary ml-5' onClick={handleBack}>Back</button>
               <button className='btn btn-outline-primary'>Save Room</button>
             </div>
           </form>

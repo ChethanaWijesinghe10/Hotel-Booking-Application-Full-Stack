@@ -128,7 +128,7 @@ const EditRoom = () => {
               />
             )}
           </div>
-          <div className='d-grid d-md-flex mt-2'>
+          <div className='d-grid justify-content-between d-md-flex mt-2'>
           <button type="button" className='btn btn-outline-primary ml-5' onClick={handleBack}>Back</button>
          
             <button className='btn btn-outline-primary ml-5'>Edit Room</button>
