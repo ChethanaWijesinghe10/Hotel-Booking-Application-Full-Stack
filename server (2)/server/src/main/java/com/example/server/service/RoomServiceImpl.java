@@ -3,6 +3,7 @@ package com.example.server.service;
 import com.example.server.dto.RoomDTO;
 import com.example.server.entity.BookedRoom;
 import com.example.server.entity.Room;
+import com.example.server.exceptions.InternalServerException;
 import com.example.server.exceptions.ResourceNotFoundException;
 import com.example.server.repo.RoomRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,8 +104,27 @@ public class RoomServiceImpl implements RoomService {
     //to update rooms
 
     @Override
-    public Room updateRoom(int id, String roomType, double roomPrice, byte[] photoBytes) {
-        return null;
+    public Room updateRoom(int id, String roomType, Double roomPrice, byte[] photoBytes) {
+        Room room =roomRepo.findById(id).orElseThrow(()->new ResourceNotFoundException("Room not found"));
+        if(roomType!=null) room.setRoomType(roomType);
+         if(roomPrice!=null) {
+             room.setRoomPrice(roomPrice);
+         }
+         if(photoBytes!=null && photoBytes.length>0){
+             try{
+                 room.setPhoto(new SerialBlob(photoBytes));
+         }catch(SQLException ex){
+                 throw new InternalServerException("Error updating room");
+             }
+         }
+
+        return roomRepo.save(room);
+    }
+
+    @Override
+    public Optional<Room> getRoomById(int id) {
+        return Optional.of(roomRepo.findById(id).get());
+
     }
 }
   /*  @Override
