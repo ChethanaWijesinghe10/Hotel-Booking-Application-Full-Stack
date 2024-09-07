@@ -9,6 +9,7 @@ import com.example.server.dto.BookedRoomDTO;
 import com.example.server.dto.RoomDTO;
 import com.example.server.entity.BookedRoom;
 import com.example.server.entity.Room;
+import com.example.server.exceptions.ResourceNotFoundException;
 import com.example.server.repo.BookedRoomRepo;
 import com.example.server.service.BookedRoomService;
 import com.example.server.service.RoomService;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -138,7 +140,7 @@ public class RoomController {
     @PutMapping(path = "/update/{id}")
     public ResponseEntity<RoomDTO> updateRoom(@PathVariable int id,
                                               @RequestParam(required = false) String roomType,
-                                              @RequestParam(required = false) double roomPrice,
+                                              @RequestParam(required = false) Double roomPrice,
                                               @RequestParam(required = false) MultipartFile photo ) throws SQLException, IOException {
 byte[] photoBytes =photo!=null && !photo.isEmpty()?
         photo.getBytes() : roomService.getRoomPhotoByRoomId(id);
@@ -148,6 +150,20 @@ byte[] photoBytes =photo!=null && !photo.isEmpty()?
           RoomDTO roomDTO =getRoomDTO(theRoom);
           return  ResponseEntity.ok(roomDTO);
     }
+@GetMapping(path = "/room/{id}")
+ public ResponseEntity<Optional<RoomDTO>>  getRoomById(@PathVariable int id){
+Optional<Room> theRoom =roomService.getRoomById(id);
+return theRoom.map(room ->{
+    RoomDTO roomDTO = null;
+    try {
+        roomDTO = getRoomDTO(room);
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return  ResponseEntity.ok(Optional.of(roomDTO));
+} ).orElseThrow(()->new ResourceNotFoundException("Room not found"));
+ }
+
 
 }
 

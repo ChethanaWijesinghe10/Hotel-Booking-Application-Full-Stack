@@ -14,7 +14,7 @@ export async function addRoom(photo,roomType,roomPrice) {
 
 try{
     const response=await api.post("/api/v1/room/add",formData)
-    if(response.status===201){
+    if(response.status===200){
         return true
     }
     else {
@@ -27,7 +27,7 @@ try{
 }
 }
 
-//Function to get all room types from database
+// to get all room types from database
 
 export async function getRoomType() {
     try{
@@ -49,10 +49,10 @@ export async function getAllRooms() {
   try {
     const result = await api.get("/api/v1/room/all-rooms");
 
-    // Log the raw response to check its structure
+    
     console.log("Raw API Response:", result);
 
-    // Assuming result.data is already in the correct object format, no need to parse it
+
     return Array.isArray(result.data) ? result.data : [];
   } catch (error) {
     console.error("Error fetching rooms:", error.response ? error.response.data : error.message);
@@ -76,10 +76,12 @@ export async function deleteRoom(id) {
 //to update
  export async function updateRoom(id,roomData) {
   const formData =new FormData()
-formData.append("roomType",roomData.roomType)
+  formData.append("roomType",roomData.roomType)
 formData.append("roomPrice",roomData.roomPrice)
 formData.append("photo",roomData.photo)
-const response =await api.put("/room/update/${id}")
+//const response =await api.put("/api/v1/room/update/${id}")
+const response = await api.put(`/api/v1/room/update/${id}`, formData);
+
 return response 
   
 }

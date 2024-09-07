@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface RoomService {
     RoomDTO addNewRoom(MultipartFile file, String roomType, double roomPrice) throws IOException, SQLException;
@@ -20,7 +21,9 @@ public interface RoomService {
 
     void deleteRoom(int id);
 
-    Room updateRoom(int id, String roomType, double roomPrice, byte[] photoBytes);
+    Room updateRoom(int id, String roomType, Double roomPrice, byte[] photoBytes);
+
+    Optional<Room> getRoomById(int id);
 
 
     // PaginatedResponseRoomDTO getAllRooms(int page, int size);

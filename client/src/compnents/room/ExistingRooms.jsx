@@ -5,7 +5,7 @@ import RoomPaginator from '../common/RoomPaginator';
 import RoomFilter from '../common/RoomFilter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Col } from 'react-bootstrap';
-import { FaTrashAlt,FaEye,FaEdit, } from 'react-icons/fa';
+import { FaTrashAlt,FaEye,FaEdit,FaPlus, } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 
@@ -59,10 +59,10 @@ const handleDelete =async(id)=>{
   try{
   const result=await deleteRoom(id)
   if(result ===""){
-    setSuccessMessage("Room No ${id} was deleted")
+    setSuccessMessage(`Room No ${id} was deleted`)
     fetchRooms() 
   }else{
-    console.error("Error deleting room: ${result.message }")
+    console.error(`Error deleting room: ${result.message}`)
   }
   }catch(error){
     setErrorMessage(error.message)
@@ -89,7 +89,10 @@ const handleDelete =async(id)=>{
 
   return (
     <>
- 
+ <div className='container col-md-8 col-lg-6'>
+  {successMessage && <p className='alert alert-success mt-5'>{successMessage}</p>}
+  {errorMessage && <p className='alert alert-success mt-5'>{errorMessage}</p>}
+ </div>
       {isLoading ? (
         <p>Loading existing rooms...</p>
       ) : errorMessage ? (
@@ -99,7 +102,13 @@ const handleDelete =async(id)=>{
           <section className='mt-5 mb-5 container'>
             <div className='d-flex justify-content-center mb-3 mt-5'>
               <h2>Existing Rooms</h2>
+<Link to={"/add-room"}>
+<FaPlus/>Add Room
+
+</Link>
             </div>
+
+
             <Col md={6} className='mb-3 mb-md-0'>
               <RoomFilter data={rooms} setFilteredData={setFilteredRooms} />
             </Col>

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { addRoom } from '../utils/ApiFunctions';
 import RoomTypeSelector from '../common/RoomTypeSelector';
@@ -13,22 +14,18 @@ const AddRoom = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleRoomInputChange = (e) => {
-    const name = e.target.name;
-    let value = e.target.value;
-    if (name === 'roomPrice') {
-      if (!isNaN(value)) {
-        value = parseInt(value);
-      } else {
-        value = '';
-      }
-    }
-    setNewRoom({ ...newRoom, [name]: value });
-  };
+ 
+const handleRoomInputChange = (e) => {
+  const { name, value } = e.target;
+  setNewRoom((prevRoom) => ({
+    ...prevRoom,
+    [name]: value
+  }));
+};
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const selectedImage = e.target.files[0];
-    setNewRoom({ ...newRoom, photo: selectedImage });
+    setNewRoom((prevRoom) => ({ ...prevRoom, photo: selectedImage }));
     setImagePreview(URL.createObjectURL(selectedImage));
   };
 
@@ -36,9 +33,8 @@ const AddRoom = () => {
     e.preventDefault();
     try {
       const success = await addRoom(newRoom.photo, newRoom.roomType, newRoom.roomPrice);
-      console.log(success);
       if (success) {
-        setSuccessMessage("New Room was added successfully");
+        setSuccessMessage('New Room was added successfully');
         setNewRoom({ photo: null, roomType: '', roomPrice: '' });
         setImagePreview('');
         setErrorMessage('');
@@ -46,12 +42,12 @@ const AddRoom = () => {
         setErrorMessage('Error Adding Room');
       }
     } catch (error) {
-      setErrorMessage(error.message)
+      setErrorMessage(error.message);
     }
-    setTimeout(()=>{
-setSuccessMessage('');
-setErrorMessage('');
-    },3000);
+    setTimeout(() => {
+      setSuccessMessage('');
+      setErrorMessage('');
+    }, 3000);
   };
 
   return (
@@ -62,15 +58,17 @@ setErrorMessage('');
           {successMessage && (
             <div className='alert alert-success fade show'>{successMessage}</div>
           )}
-
-{errorMessage&& (
+          {errorMessage && (
             <div className='alert alert-danger fade show'>{errorMessage}</div>
           )}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="roomType" className="form-label">Room Type</label>
               <div>
-                <RoomTypeSelector handleRoomInputChange={handleRoomInputChange} newRoom={newRoom} />
+                <RoomTypeSelector
+                  newRoom={newRoom}
+                  handleRoomInputChange={handleRoomInputChange}
+                />
               </div>
             </div>
 
@@ -106,7 +104,7 @@ setErrorMessage('');
               )}
             </div>
             <div className='d-grid d-md-flex mt-2'>
-              <button className='btn btn-outline-primary ml-5'>Save Room</button>
+              <button className='btn btn-outline-primary'>Save Room</button>
             </div>
           </form>
           {successMessage && <div className='alert alert-success mt-3'>{successMessage}</div>}

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { getRoomById, updateRoom } from '../utils/ApiFunctions';
-import { useParams } from 'react-router-dom';
-
+import { useParams,useNavigate } from 'react-router-dom';
+import RoomTypeSelector from '../common/RoomTypeSelector';
 const EditRoom = () => {
   const [room, setRoom] = useState({
     photo: null,
@@ -12,11 +12,11 @@ const EditRoom = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const{id} =useParams()
-  
+  const{id} =useParams();
+  const navigate = useNavigate();
   const handleImageChange = async (e) => {
     const selectedImage = e.target.files[0];
-    setRoom({ ...newRoom, photo: selectedImage });
+    setRoom({ ...room, photo: selectedImage });
     setImagePreview(URL.createObjectURL(selectedImage));
   };
 
@@ -30,7 +30,7 @@ const EditRoom = () => {
         value = '';
       }
     }
-    setRoom({ ...newRoom, [name]: value });
+    setRoom({ ...room, [name]: value });
   };
 
 
@@ -69,6 +69,11 @@ const EditRoom = () => {
   }
  } 
 
+
+ const handleBack = () => {
+  navigate('/existing-rooms'); 
+};
+
  return (
   <section className='container mt-5 mb-5'>
     <div className='row justify-content-center'>
@@ -85,7 +90,10 @@ const EditRoom = () => {
           <div className="mb-3">
             <label htmlFor="roomType" className="form-label">Room Type</label>
             <div>
-              <RoomTypeSelector handleRoomInputChange={handleRoomInputChange} newRoom={newRoom} />
+            
+          
+            <RoomTypeSelector newRoom={room} handleRoomInputChange={handleRoomInputChange} />
+
             </div>
           </div>
 
@@ -97,7 +105,7 @@ const EditRoom = () => {
               id='roomPrice'
               name='roomPrice'
               type='number'
-              value={newRoom.roomPrice}
+              value={room.roomPrice}
               onChange={handleRoomInputChange}
             />
           </div>
@@ -121,6 +129,8 @@ const EditRoom = () => {
             )}
           </div>
           <div className='d-grid d-md-flex mt-2'>
+          <button type="button" className='btn btn-outline-primary ml-5' onClick={handleBack}>Back</button>
+         
             <button className='btn btn-outline-primary ml-5'>Edit Room</button>
           </div>
         </form>
