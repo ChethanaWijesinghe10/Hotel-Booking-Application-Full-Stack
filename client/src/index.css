@@ -58,6 +58,7 @@ body {
   color: #fff;
   }
   .btn-hotel:hover{
+    text-decoration: none; 
   background-color: rgb(137, 127, 132);
   color: #fff;
   transition: 0.7s;
@@ -67,6 +68,7 @@ body {
   }
 
   .hotel-color{
+    text-decoration: none; 
     color: rgb(169, 77, 123);
   }
   .room-price{
@@ -227,5 +229,15 @@ body {
 
 
 
+/* Remove underline for the hotel-color link */
+a.hotel-color {
+  text-decoration: none !important; /* Force removal of underline */
+  color: rgb(169, 77, 123) !important; /* Ensure the correct color is applied */
+}
+
+a.hotel-color:hover {
+  text-decoration: none !important; /* No underline on hover */
+  color: rgb(137, 127, 132) !important; /* Optional hover color */
+}
 
 
