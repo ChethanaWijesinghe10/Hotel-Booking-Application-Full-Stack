@@ -16,6 +16,7 @@ import NavBar from './compnents/layout/NavBar'
 import Footer from './compnents/layout/Footer'
 import RoomFilter from './compnents/common/RoomFilter'
 import RoomListing from './compnents/room/RoomListing'
+import Admin from './compnents/admin/Admin'
 function App() {
   
 
@@ -29,7 +30,8 @@ function App() {
 <Route path="/edit-room/:id" element={<EditRoom />} />
 <Route path="/add-room" element={<AddRoom/>} />
 <Route path="/browse-all-rooms" element={<RoomListing/>} />
-<Route path="/browse-all-rooms" element={<RoomFilter/>} />
+
+<Route path="/admin" element={<Admin/>} />
         </Routes>
         </Router>
         <Footer/>
