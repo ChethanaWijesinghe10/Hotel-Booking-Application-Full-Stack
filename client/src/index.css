@@ -96,7 +96,7 @@ body {
   position: relative;
   height: 150px;
   background-size: cover;
-  background-image: url("./assets/images/service.jpeg");
+  background-image: url("./assets/images/header_img.jpeg");
   background-position: center center;
 }
 .header-title {
