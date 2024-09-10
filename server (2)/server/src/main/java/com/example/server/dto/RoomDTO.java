@@ -1,8 +1,6 @@
 package com.example.server.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -11,7 +9,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-
+@Getter
+@Setter
 public class RoomDTO {
 
     private int id;
@@ -30,6 +29,12 @@ public class RoomDTO {
         this.photo = photo != null ? Base64.getEncoder().encodeToString(photo.getBytes(1, (int) photo.length())) : null;
         //   this.photo = photo.toString();
         this.bookings = bookings;
+    }
+
+    public RoomDTO(int id, String roomType, double roomPrice) {
+        this.id = id;
+        this.roomType = roomType;
+        this.roomPrice = roomPrice;
     }
 
     // Set photo as Base64 string for response

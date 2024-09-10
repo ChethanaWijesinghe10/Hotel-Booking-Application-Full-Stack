@@ -122,11 +122,7 @@ const NavBar = () => {
                             </NavLink>
                         </li>
 
-                        <li className='nav-item'>
-                            <NavLink className="nav-link" aria-current="page" to={"/manage-rooms"}>
-                                Manage rooms
-                            </NavLink>
-                        </li>
+                     
 
                         <li className='nav-item'>
                             <NavLink className="nav-link" aria-current="page" to={"/admin"}>

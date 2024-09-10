@@ -10,8 +10,8 @@ import com.example.server.dto.RoomDTO;
 import com.example.server.entity.BookedRoom;
 import com.example.server.entity.Room;
 import com.example.server.exceptions.ResourceNotFoundException;
-import com.example.server.repo.BookedRoomRepo;
-import com.example.server.service.BookedRoomService;
+import com.example.server.repo.BookingRepo;
+import com.example.server.service.BookingService;
 import com.example.server.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,9 +34,9 @@ public class RoomController {
     private RoomService roomService;
 
     @Autowired
-    private BookedRoomService bookedRoomService;
+    private BookingService bookedRoomService;
     @Autowired
-    private BookedRoomRepo bookedRoomRepo;
+    private BookingRepo bookedRoomRepo;
 
 
     @PostMapping("/add")

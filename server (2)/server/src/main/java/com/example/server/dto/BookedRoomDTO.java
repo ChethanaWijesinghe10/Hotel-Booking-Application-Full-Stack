@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookedRoomDTO {
-    private int bookingId;
+    private int id;
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String guestName;
@@ -20,6 +20,10 @@ public class BookedRoomDTO {
     private int totalNoOfGuests;
     private String bookingConfirmationCode;
 
-    public BookedRoomDTO(int bookingId, LocalDate checkInDate, LocalDate checkOutDate, String bookingConfirmationCode) {
+    public BookedRoomDTO(int id, LocalDate checkInDate, LocalDate checkOutDate, String bookingConfirmationCode) {
+        this.id=id;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.bookingConfirmationCode = bookingConfirmationCode;
     }
 }

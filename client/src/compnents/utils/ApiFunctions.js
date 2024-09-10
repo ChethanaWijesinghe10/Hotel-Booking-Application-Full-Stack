@@ -96,3 +96,54 @@ throw new Error('Error fetching room ${error.message}')
   }
   
 }
+
+//to book new room
+export async function bookRoom(id,booking) {
+  try{
+    const response =await api.post(`/api/v1/bookings/room/${id}/booking`,booking)
+    return response.data
+  }catch(error){
+    if(error.response && error.response.data){
+      throw new Error(error.response.data)
+    }else{
+      throw new Error(`Error booking room: ${error.message}`)
+    }
+
+  }
+  
+}
+//to get all bookings
+export async function getAllBookings() {
+	try {
+		const result = await api.get("api/v1/bookings/all-bookings", {
+			headers: getHeader()
+		})
+		return result.data
+	} catch (error) {
+		throw new Error(`Error fetching bookings : ${error.message}`)
+	}
+}
+//get booking by the cnfirmation code 
+
+export async function getBookingByConfirmationCode(confirmationCode) {
+	try {
+		const result = await api.get(`api/v1/bookings/confirmation/${confirmationCode}`)
+		return result.data
+	} catch (error) {
+		if (error.response && error.response.data) {
+			throw new Error(error.response.data)
+		} else {
+			throw new Error(`Error find booking : ${error.message}`)
+		}
+	}
+}
+
+//to cancel user booking
+export async function cancelBooking(id) {
+	try {
+		const result = await api.delete(`api/v1/bookings/booking/${id}/delete`)
+		return result.data
+	} catch (error) {
+		throw new Error(`Error cancelling booking :${error.message}`)
+	}
+}
