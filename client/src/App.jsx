@@ -17,6 +17,8 @@ import Footer from './compnents/layout/Footer'
 import RoomFilter from './compnents/common/RoomFilter'
 import RoomListing from './compnents/room/RoomListing'
 import Admin from './compnents/admin/Admin'
+import Checkout from './compnents/bookings/Checkout'
+import BookingSuccess from './compnents/bookings/BookingSuccess'
 function App() {
   
 
@@ -32,6 +34,11 @@ function App() {
 <Route path="/browse-all-rooms" element={<RoomListing/>} />
 
 <Route path="/admin" element={<Admin/>} />
+
+<Route path="/book-room/:id" element={<Checkout/>} />
+
+<Route path="/booking-success" element={<BookingSuccess/>} />
+
         </Routes>
         </Router>
         <Footer/>

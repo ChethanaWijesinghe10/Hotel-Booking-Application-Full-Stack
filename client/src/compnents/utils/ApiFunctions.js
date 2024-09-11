@@ -98,7 +98,7 @@ throw new Error('Error fetching room ${error.message}')
 }
 
 //to book new room
-export async function bookRoom(id,booking) {
+/*export async function bookRoom(id,booking) {
   try{
     const response =await api.post(`/api/v1/bookings/room/${id}/booking`,booking)
     return response.data
@@ -111,7 +111,18 @@ export async function bookRoom(id,booking) {
 
   }
   
+}*/
+
+export async function bookRoom(id, booking) {
+  try {
+    const response = await api.post(`/api/v1/bookings/room/${id}/booking`, booking);
+    return response.data;
+  } catch (error) {
+    console.error("Error booking room:", error.response ? error.response.data : error.message);
+    throw error;
+  }
 }
+
 //to get all bookings
 export async function getAllBookings() {
 	try {

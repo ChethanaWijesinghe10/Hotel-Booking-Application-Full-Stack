@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.awt.print.Book;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -63,7 +64,7 @@ RoomService roomService;
         return bookedRoomRepo.findAll();
     }
 
-    @Override
+    /*@Override
     public String saveBooking(int id, BookedRoom bookingRequest) {
        if(bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())){
            throw new InvalidBookingRequestException("Check-in date must come before check-out date");
@@ -79,9 +80,39 @@ RoomService roomService;
            throw new InvalidBookingRequestException("Sorry,This room is not available for selected dates.!");
        }
         return bookingRequest.getBookingConfirmationCode() ;
+    }*/
+
+
+    @Override
+    public String saveBooking(int id, BookedRoom bookingRequest) {
+        // Validate the check-in and check-out dates
+        if (bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())) {
+            throw new InvalidBookingRequestException("Check-in date must come before check-out date");
+        }
+
+        // Fetch the room by ID
+        Room room = roomService.getRoomById(id).orElseThrow(() -> new InvalidBookingRequestException("Room not found"));
+
+        // Check room availability for the given dates
+        List<BookedRoom> existingBookings = room.getBookings();
+        boolean roomIsAvailable = roomIsAvailable(bookingRequest, existingBookings);
+
+        if (roomIsAvailable) {
+            // Generate a unique confirmation code
+            String confirmationCode = UUID.randomUUID().toString();
+            bookingRequest.setBookingConfirmationCode(confirmationCode); // Set the generated code
+
+            // Add the booking to the room and save the booking
+            room.addBooking(bookingRequest);
+            bookedRoomRepo.save(bookingRequest);
+
+            return confirmationCode; // Return the generated confirmation code
+        } else {
+            throw new InvalidBookingRequestException("Sorry, this room is not available for selected dates!");
+        }
     }
 
-    private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
+   /* private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
         return existingBookings.stream()
                 .noneMatch(existingBooking ->
                         bookingRequest.getCheckInDate().equals(existingBooking.getCheckInDate())
@@ -102,6 +133,15 @@ RoomService roomService;
                                 && bookingRequest.getCheckOutDate().equals(bookingRequest.getCheckInDate()))
                 );
     }
+*/
+   private boolean roomIsAvailable(BookedRoom bookingRequest, List<BookedRoom> existingBookings) {
+       return existingBookings.stream()
+               .noneMatch(existingBooking ->
+                       // Check if the new booking overlaps with an existing booking
+                       !(bookingRequest.getCheckOutDate().isBefore(existingBooking.getCheckInDate()) ||
+                               bookingRequest.getCheckInDate().isAfter(existingBooking.getCheckOutDate()))
+               );
+   }
 
     @Override
     public void cancelBooking(int id) {
