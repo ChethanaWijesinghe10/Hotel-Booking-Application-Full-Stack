@@ -973,7 +973,7 @@ const BookingForm = () => {
         <div className="col-md-4">
           {isSubmitted && (
             <BookingSummary
-              booking={{ ...booking, id }}  // Pass booking ID if needed
+              booking={{ ...booking, id }}  
               payment={calculatePayment()}
               onConfirm={handleBooking}
               isFormValid={validated}
