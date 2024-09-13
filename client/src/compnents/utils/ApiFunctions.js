@@ -4,6 +4,13 @@ export const api= axios.create({
     baseURL:"http://localhost:8083"
 })
 
+export const getHeader = () => {
+	const token = localStorage.getItem("token")
+	return {
+		Authorization: `Bearer ${token}`,
+		"Content-Type": "application/json"
+	}
+}
 
 
 export async function addRoom(photo,roomType,roomPrice) {
@@ -97,21 +104,7 @@ throw new Error('Error fetching room ${error.message}')
   
 }
 
-//to book new room
-/*export async function bookRoom(id,booking) {
-  try{
-    const response =await api.post(`/api/v1/bookings/room/${id}/booking`,booking)
-    return response.data
-  }catch(error){
-    if(error.response && error.response.data){
-      throw new Error(error.response.data)
-    }else{
-      throw new Error(`Error booking room: ${error.message}`)
-    }
 
-  }
-  
-}*/
 
 export async function bookRoom(id, booking) {
   try {

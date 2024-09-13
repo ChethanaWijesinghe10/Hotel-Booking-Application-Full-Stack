@@ -1,10 +1,52 @@
 import React from 'react'
+import Header from '../common/Header'
+import BookingsTable from '../bookings/BookingsTable'
+import { useState,useEffect } from 'react'
+import { getAllBookings } from '../utils/ApiFunctions'
 
 const Bookings = () => {
+
+    const [bookingInfo, setBookingInfo] = useState([])
+	const [isLoading, setIsLoading] = useState(true)
+	const [error, setError] = useState("")
+
+
+    useEffect(() => {
+		setTimeout(() => {
+			getAllBookings()
+				.then((data) => {
+					setBookingInfo(data)
+					setIsLoading(false)
+				})
+				.catch((error) => {
+					setError(error.message)
+					setIsLoading(false)
+				})
+		}, 1000)
+	}, [])
+
+    const handleBookingCancellation = async (bookingId) => {
+		try {
+			await cancelBooking(bookingId)
+			const data = await getAllBookings()
+			setBookingInfo(data)
+		} catch (error) {
+			setError(error.message)
+		}
+	}
   return (
-    <div>
-      
-    </div>
+    <section>
+     	<Header className='container' style={{backgroundColor:"whitesmoke"}}title={"Existing Bookings"} />
+			{error && <div className="text-danger">{error}</div>}
+			{isLoading ? (
+				<div>Loading existing bookings</div>
+			) : (
+				<BookingsTable
+					bookingInfo={bookingInfo}
+					handleBookingCancellation={handleBookingCancellation}
+				/>
+			)}
+    </section>
   )
 }
 

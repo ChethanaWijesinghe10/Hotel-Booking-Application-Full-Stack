@@ -19,6 +19,7 @@ import RoomListing from './compnents/room/RoomListing'
 import Admin from './compnents/admin/Admin'
 import Checkout from './compnents/bookings/Checkout'
 import BookingSuccess from './compnents/bookings/BookingSuccess'
+import Bookings from './compnents/bookings/Bookings'
 function App() {
   
 
@@ -38,7 +39,7 @@ function App() {
 <Route path="/book-room/:id" element={<Checkout/>} />
 
 <Route path="/booking-success" element={<BookingSuccess/>} />
-
+<Route path="/existing-bookings" element={<Bookings/>} />
         </Routes>
         </Router>
         <Footer/>
