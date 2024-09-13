@@ -48,10 +48,15 @@ public class BookingController {
     }
     }
 
-    private BookedRoomDTO getBookingDTO(BookedRoom booking) {
+   /* private BookedRoomDTO getBookingDTO(BookedRoom booking) {
     Room theRoom= roomService.getRoomById(booking.getRoom().getId()).get();
-        RoomDTO room=new RoomDTO(theRoom.getId(), theRoom.getRoomType(), theRoom.getRoomPrice() );
-        return new BookedRoomDTO(booking.getBookingId(),
+
+        RoomDTO room=new RoomDTO(
+                theRoom.getId(),
+                theRoom.getRoomType(),
+                theRoom.getRoomPrice() );
+        return new BookedRoomDTO(
+                booking.getBookingId(),
                 booking.getCheckInDate(),
                 booking.getCheckOutDate(),
                 booking.getGuestName(),
@@ -59,10 +64,39 @@ public class BookingController {
                 booking.getNoOfAdults(),
                 booking.getNoOfChildren(),
                 booking.getTotalNoOfGuests(),
-                booking.getBookingConfirmationCode()
+                booking.getBookingConfirmationCode(),
+               room.getRoomType()
+
+
 
         );
     }
+
+*/
+   private BookedRoomDTO getBookingDTO(BookedRoom booking) {
+       Room theRoom = roomService.getRoomById(booking.getRoom().getId()).orElseThrow(() -> new ResourceNotFoundException("Room not found"));
+
+       // Create RoomDTO with room details
+       RoomDTO room = new RoomDTO(
+               theRoom.getId(),
+               theRoom.getRoomType(),
+               theRoom.getRoomPrice()
+       );
+
+       // Pass the RoomDTO object into the BookedRoomDTO constructor
+       return new BookedRoomDTO(
+               booking.getBookingId(),
+               booking.getCheckInDate(),
+               booking.getCheckOutDate(),
+               booking.getGuestName(),
+               booking.getGuestEmail(),
+               booking.getNoOfAdults(),
+               booking.getNoOfChildren(),
+               booking.getTotalNoOfGuests(),
+               booking.getBookingConfirmationCode(),
+               room  // Pass RoomDTO here
+       );
+   }
 
     @PostMapping(path = "/room/{id}/booking")
     public ResponseEntity<?> saveBooking(@PathVariable int id,

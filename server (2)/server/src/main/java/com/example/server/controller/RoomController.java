@@ -110,7 +110,7 @@ public class RoomController {
                         booking.getBookingId(),
                         booking.getCheckInDate(),
                         booking.getCheckOutDate(),
-                        booking.getBookingConfirmationCode()))
+                        booking.getBookingConfirmationCode(), booking.getGuestEmail(), booking.getNoOfAdults(), booking.getNoOfChildren(), booking.getTotalNoOfGuests(), booking.getBookingConfirmationCode(), room.getRoomType(), room.getId()))
                 .collect(Collectors.toList());
 
         return new RoomDTO(

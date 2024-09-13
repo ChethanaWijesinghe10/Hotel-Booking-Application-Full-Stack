@@ -20,6 +20,7 @@ import Admin from './compnents/admin/Admin'
 import Checkout from './compnents/bookings/Checkout'
 import BookingSuccess from './compnents/bookings/BookingSuccess'
 import Bookings from './compnents/bookings/Bookings'
+import FindBooking from './compnents/bookings/FindBooking'
 function App() {
   
 
@@ -40,6 +41,7 @@ function App() {
 
 <Route path="/booking-success" element={<BookingSuccess/>} />
 <Route path="/existing-bookings" element={<Bookings/>} />
+<Route path="/find-booking" element={<FindBooking/>} />
         </Routes>
         </Router>
         <Footer/>

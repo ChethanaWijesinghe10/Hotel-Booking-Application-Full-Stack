@@ -409,6 +409,8 @@ const BookingSummary = ({ booking = {}, payment, isFormValid, onConfirm }) => {
       <p>Number of Days Booked: <strong>{numberOfDays}</strong></p>
       <p>Number of Adults: <strong>{booking.noOfAdults}</strong></p>
       <p>Number of Children: <strong>{booking.noOfChildren}</strong></p>
+      <p>Total Number of Guests: <strong>{parseInt(booking.noOfAdults || 0) + parseInt(booking.noOfChildren || 0)}</strong></p>
+
 
       {payment > 0 && numberOfDays > 0 ? (
         <>

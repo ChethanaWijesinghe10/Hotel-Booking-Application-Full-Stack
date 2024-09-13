@@ -39,7 +39,7 @@ public class RoomDTO {
 
     // Set photo as Base64 string for response
     public void setPhoto(String base64Photo) {
-        // Optional: if you need to convert back from Base64
+
     }
 }
 
