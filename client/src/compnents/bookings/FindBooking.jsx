@@ -2,6 +2,7 @@ import React from 'react'
 import { getBookingByConfirmationCode } from '../utils/ApiFunctions'
 import { useState } from 'react'
 import moment from 'moment'
+import { cancelBooking } from '../utils/ApiFunctions'
 const FindBooking = () => {
     const [confirmationCode, setConfirmationCode] = useState("")
 	const [error, setError] = useState(null)
@@ -111,7 +112,7 @@ const FindBooking = () => {
 						<h3>Booking Information</h3>
 						<p className="text-success">Confirmation Code: {bookingInfo.bookingConfirmationCode}</p>
 						<p>Room Number: {bookingInfo.room?.id || "N/A"}</p>
-<p>Room Type: {bookingInfo.room?.roomType || "N/A"}</p>
+                    <p>Room Type: {bookingInfo.room?.roomType || "N/A"}</p>
 
 						<p>
 							Check-in Date:{" "}

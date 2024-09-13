@@ -95,7 +95,7 @@ export default BookingsTable;*/
 import React, { useState, useEffect } from 'react';
 import { parseISO } from "date-fns";
 import DateSlider from '../common/DateSlider';
-
+import { cancelBooking } from '../utils/ApiFunctions';
 const BookingsTable = ({ bookingInfo, handleBookingCancellation }) => {
   const [filteredBookings, setFilteredBookings] = useState([]);
 
@@ -160,10 +160,12 @@ const BookingsTable = ({ bookingInfo, handleBookingCancellation }) => {
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => booking?.id && handleBookingCancellation(booking.id)}
-                    disabled={!booking?.id}
+             
                   >
                     Cancel
                   </button>
+
+
                 </td>
               </tr>
             ))

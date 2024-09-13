@@ -1,6 +1,7 @@
 package com.example.server.controller;
 
 import java.sql.Blob;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import com.example.server.repo.BookingRepo;
 import com.example.server.service.BookingService;
 import com.example.server.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Base64.*;
 
 @RestController
 @RequestMapping("/api/v1/room")
@@ -82,7 +86,7 @@ public class RoomController {
                 byte[] photoByte = roomService.getRoomPhotoByRoomId(room.getId());
 
                 if (photoByte != null && photoByte.length > 0) {
-                    String base64Photo = Base64.getEncoder().encodeToString(photoByte);
+                    String base64Photo = getEncoder().encodeToString(photoByte);
                     roomDTO.setPhoto(base64Photo);
                 } else {
                     roomDTO.setPhoto(null); // Handle case where photo is not available
@@ -163,6 +167,32 @@ return theRoom.map(room ->{
     return  ResponseEntity.ok(Optional.of(roomDTO));
 } ).orElseThrow(()->new ResourceNotFoundException("Room not found"));
  }
+
+
+    @GetMapping("/available-rooms")
+    public ResponseEntity<List<RoomDTO>> getAvailableRooms(
+            @RequestParam("checkInDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkInDate,
+            @RequestParam("checkOutDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)LocalDate checkOutDate,
+            @RequestParam("roomType") String roomType) throws SQLException {
+        List<Room> availableRooms = roomService.getAvailableRooms(checkInDate, checkOutDate, roomType);
+        List<RoomDTO> roomResponses = new ArrayList<>();
+        for (Room room : availableRooms){
+            byte[] photoBytes = roomService.getRoomPhotoByRoomId(room.getId());
+            if (photoBytes != null && photoBytes.length > 0){
+                String photoBase64 = Base64.getEncoder().encodeToString(photoBytes);
+
+                RoomDTO roomResponse = getRoomDTO(room);
+                roomResponse.setPhoto(photoBase64);
+                roomResponses.add(roomResponse);
+            }
+        }
+        if(roomResponses.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.ok(roomResponses);
+        }
+    }
+
 
 
 }

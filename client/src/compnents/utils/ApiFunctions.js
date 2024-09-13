@@ -151,3 +151,13 @@ export async function cancelBooking(id) {
 		throw new Error(`Error cancelling booking :${error.message}`)
 	}
 }
+
+//gets all availavle rooms from the database with a given date and a room type
+
+export async function getAvailableRooms(checkInDate,checkOutDate,roomType){
+  const result = await api.get(
+		`api/v1/room/available-rooms?checkInDate=${checkInDate}
+		&checkOutDate=${checkOutDate}&roomType=${roomType}`
+	)
+	return result
+}

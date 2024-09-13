@@ -14,6 +14,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Optional;
@@ -126,26 +127,14 @@ public class RoomServiceImpl implements RoomService {
         return Optional.of(roomRepo.findById(id).get());
 
     }
+
+    @Override
+    public List<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType) {
+        return roomRepo.findAvailableRoomsByDatesAndType(checkInDate, checkOutDate, roomType);
+
+    }
 }
-  /*  @Override
-    public PaginatedResponseRoomDTO getAllRooms(int page, int size) {
-        Page<Room> rooms = roomRepo.findAll(PageRequest.of(page, size));
-        return new PaginatedResponseRoomDTO(
-                itemMapper.pageToList(rooms),
-                rooms.getTotalElements()
-        );
-    }*/
 
- /*   @Override
-    public PaginatedResponseRoomDTO getRoomRoomType(int page, int size, String roomType) {
-        Page<Room> rooms=roomRepo.findAllByRoomTypeEquals(roomType, PageRequest.of(page, size));
-
-        return new PaginatedResponseRoomDTO(
-                itemMapper.pageToList(rooms),
-
-                roomRepo.countAllByRoomTypeEquals(roomType)
-        );
-    }*/
 
 
 

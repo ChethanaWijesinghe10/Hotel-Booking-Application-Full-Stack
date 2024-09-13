@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,8 @@ public interface RoomService {
     Room updateRoom(int id, String roomType, Double roomPrice, byte[] photoBytes);
 
     Optional<Room> getRoomById(int id);
+
+    List<Room> getAvailableRooms(LocalDate checkInDate, LocalDate checkOutDate, String roomType);
 
 
     // PaginatedResponseRoomDTO getAllRooms(int page, int size);
