@@ -48,8 +48,10 @@ public class UserServiceImpl  implements UserService{
     @Transactional
     @Override
     public void deleteUser(String email) {
-  userRepo.deleteByEmail(email);
-    }
+        User theUser=getUser(email);
+if(theUser!=null){
+        userRepo.deleteByEmail(email);
+    }}
 
     //get one user
 

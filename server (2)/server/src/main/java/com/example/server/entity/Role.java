@@ -49,4 +49,7 @@ public class Role {
         return name!=null? name :"";
     }
 
+    public Role(String name) {
+        this.name = name;
+    }
 }
