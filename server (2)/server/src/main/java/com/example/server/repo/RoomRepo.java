@@ -24,7 +24,7 @@ public interface RoomRepo extends JpaRepository<Room,Integer> {
 
 
 
- //   Page<Room> findAllByRoomTypeEquals(String roomType, Pageable pageable);
+
 
   Page<Room> findAllByRoomTypeEquals(String roomType, Pageable pageable);
 
