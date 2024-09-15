@@ -86,7 +86,7 @@ export async function deleteRoom(id) {
   formData.append("roomType",roomData.roomType)
 formData.append("roomPrice",roomData.roomPrice)
 formData.append("photo",roomData.photo)
-//const response =await api.put("/api/v1/room/update/${id}")
+
 const response = await api.put(`/api/v1/room/update/${id}`, formData);
 
 return response 
